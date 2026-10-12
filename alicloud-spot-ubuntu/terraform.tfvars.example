@@ -1,0 +1,5 @@
+region     = "cn-hangzhou"
+# availability_zone = "cn-hangzhou-b"
+# instance_type     = "ecs.t6-c1m1.large"
+# password          = "your-password"
+# key_name          = "your-key-pair"
