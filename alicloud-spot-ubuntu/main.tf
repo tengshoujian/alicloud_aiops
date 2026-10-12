@@ -17,7 +17,7 @@ provider "alicloud" {
 
 data "alicloud_zones" "default" {
   available_resource_creation = "VSwitch"
-  available_instance_type     = "ecs.e-c1m2.large"
+  available_instance_type     = var.instance_type
 }
 
 variable "name" {
@@ -55,7 +55,7 @@ resource "alicloud_security_group" "group" {
 resource "alicloud_instance" "spot_instance" {
   availability_zone      = data.alicloud_zones.default.zones.0.id
   security_groups        = [alicloud_security_group.group.id]
-  instance_type          = data.alicloud_zones.default.instances.0.id
+  instance_type          = var.instance_type
   image_id               = data.alicloud_images.ubuntu.images.0.id
   instance_name          = var.name
   vswitch_id             = alicloud_vswitch.vswitch.id
