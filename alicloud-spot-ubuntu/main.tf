@@ -20,7 +20,7 @@ variable "name" {
 }
 
 variable "instance_type" {
-  default = "ecs.n4.large"
+  default = "ecs.e-c1m1.large"
 }
 
 variable "image_id" {
