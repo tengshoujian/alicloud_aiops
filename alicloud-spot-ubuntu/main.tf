@@ -33,7 +33,7 @@ resource "alicloud_vswitch" "main" {
 }
 
 resource "alicloud_security_group" "sg" {
-  name        = "spot-instance-sg"
+  security_group_name = "spot-instance-sg"
   description = "Security group for spot instance"
   vpc_id      = alicloud_vpc.main.id
 }
