@@ -1,59 +1,30 @@
 variable "region" {
-  type    = string
-  default = "ap-northeast-1"
+  type        = string
+  description = "AliCloud region"
+  default     = "cn-hangzhou"
 }
 
-variable "vpc_name" {
-  description = "VPC name"
+variable "name" {
   type        = string
-  default     = "spot-instance-vpc"
-}
-
-variable "availability_zone" {
-  description = "Availability zone"
-  type        = string
-  default     = "cn-hangzhou-b"
-}
-
-variable "instance_name" {
-  description = "Instance name"
-  type        = string
-  default     = "spot-ubuntu"
+  description = "Resource name prefix"
+  default     = "terraform-spot-example"
 }
 
 variable "instance_type" {
-  description = "ECS instance type"
   type        = string
-  default     = "ecs.e-c1m2.large"
+  description = "ECS instance type"
+  default     = "ecs.n4.large"
 }
 
-variable "spot_price_limit" {
-  description = "Max price per hour (0 = SpotAsPriceGo)"
-  type        = number
-  default     = 0
-}
-
-variable "internet_bandwidth" {
-  description = "Internet max bandwidth (Mbps)"
-  type        = number
-  default     = 1
-}
-
-variable "disk_size" {
-  description = "System disk size (GB)"
-  type        = number
-  default     = 40
+variable "image_id" {
+  type        = string
+  description = "Image ID for the instance"
+  default     = "ubuntu_22_04_x64_20G_alibase_20240828.vhd"
 }
 
 variable "password" {
-  description = "Root password (leave null to use key pair)"
   type        = string
+  description = "Root password for the instance"
   sensitive   = true
-  default     = null
-}
-
-variable "key_name" {
-  description = "SSH key pair name (optional)"
-  type        = string
   default     = null
 }
