@@ -34,7 +34,6 @@ data "alicloud_images" "ubuntu" {
   most_recent = true
 }
 
-
 resource "alicloud_vpc" "vpc" {
   vpc_name   = var.name
   cidr_block = "172.16.0.0/16"
