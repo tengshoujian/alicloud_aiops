@@ -28,8 +28,10 @@ variable "instance_type" {
   default = "ecs.e-c1m2.large"
 }
 
-variable "image_id" {
-  default = "ubuntu_22_04_x64_20G_alibase_20230727.vhd"
+data "alicloud_images" "ubuntu" {
+  name_regex  = "^ubuntu"
+  owners      = "system"
+  most_recent = true
 }
 
 
@@ -55,7 +57,7 @@ resource "alicloud_instance" "spot_instance" {
   availability_zone      = data.alicloud_zones.default.zones.0.id
   security_groups        = [alicloud_security_group.group.id]
   instance_type          = var.instance_type
-  image_id               = var.image_id
+  image_id               = data.alicloud_images.ubuntu.images.0.id
   instance_name          = var.name
   vswitch_id             = alicloud_vswitch.vswitch.id
   system_disk_category   = "cloud_efficiency"
