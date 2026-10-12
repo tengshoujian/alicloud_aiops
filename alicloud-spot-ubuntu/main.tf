@@ -55,7 +55,7 @@ resource "alicloud_security_group" "group" {
 resource "alicloud_instance" "spot_instance" {
   availability_zone      = data.alicloud_zones.default.zones.0.id
   security_groups        = [alicloud_security_group.group.id]
-  instance_type          = var.instance_type
+  instance_type          = data.alicloud_zones.default.instances.0.id
   image_id               = data.alicloud_images.ubuntu.images.0.id
   instance_name          = var.name
   vswitch_id             = alicloud_vswitch.vswitch.id
@@ -66,5 +66,5 @@ resource "alicloud_instance" "spot_instance" {
   instance_charge_type = "PostPaid"
   spot_strategy        = "SpotAsPriceGo"
   spot_duration        = 1
-  password               = "Grafana2024!"
+  password             = "Grafana2024!"
 }
