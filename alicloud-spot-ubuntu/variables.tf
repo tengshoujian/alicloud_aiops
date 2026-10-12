@@ -28,7 +28,7 @@ variable "instance_type" {
 }
 
 variable "spot_price_limit" {
-  description = "Max price per hour (0 = SpotAsPriceGo)
+  description = "Max price per hour (0 = SpotAsPriceGo)"
   type        = number
   default     = 0
 }
