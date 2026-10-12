@@ -15,23 +15,23 @@ provider "alicloud" {
   # secret_key = var.secret_key
 }
 
+data "alicloud_zones" "default" {
+  available_resource_creation = "VSwitch"
+  available_instance_type     = "ecs.e-c1m2.large"
+}
+
 variable "name" {
   default = "terraform-spot-example"
 }
 
 variable "instance_type" {
-  default = "ecs.e-c1m1.large"
+  default = "ecs.e-c1m2.large"
 }
 
 variable "image_id" {
-  default = "ubuntu_18_04_64_20G_alibase_20190624.vhd"
+  default = "ubuntu_22_04_x64_20G_alibase_20230727.vhd"
 }
 
-data "alicloud_zones" "default" {
-  available_disk_category     = "cloud_efficiency"
-  available_resource_creation = "VSwitch"
-  available_instance_type     = var.instance_type
-}
 
 resource "alicloud_vpc" "vpc" {
   vpc_name   = var.name
@@ -65,4 +65,5 @@ resource "alicloud_instance" "spot_instance" {
   instance_charge_type = "PostPaid"
   spot_strategy        = "SpotAsPriceGo"
   spot_duration        = 1
+  password               = "Grafana2024!"
 }
