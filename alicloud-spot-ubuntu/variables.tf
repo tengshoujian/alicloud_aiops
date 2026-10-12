@@ -1,8 +1,8 @@
 variable "region" {
-  type        = string
-  description = "AliCloud region"
-  default     = "cn-hangzhou"
+  type    = string
+  default = "ap-northeast-1"
 }
+
 
 variable "password" {
   type        = string
