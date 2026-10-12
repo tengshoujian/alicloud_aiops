@@ -15,67 +15,54 @@ provider "alicloud" {
   # secret_key = var.secret_key
 }
 
-data "alicloud_images" "ubuntu" {
-  name_regex  = "^ubuntu_22.*x64"
-  most_recent = true
-  owners      = "system"
+variable "name" {
+  default = "terraform-spot-example"
 }
 
-resource "alicloud_vpc" "main" {
-  vpc_name   = var.vpc_name
-  cidr_block = "172.16.0.0/12"
+variable "instance_type" {
+  default = "ecs.n4.large"
 }
 
-resource "alicloud_vswitch" "main" {
-  vpc_id     = alicloud_vpc.main.id
-  cidr_block = "172.16.0.0/21"
-  zone_id    = var.availability_zone
+variable "image_id" {
+  default = "ubuntu_18_04_64_20G_alibase_20190624.vhd"
 }
 
-resource "alicloud_security_group" "sg" {
-  security_group_name = "spot-instance-sg"
-  description = "Security group for spot instance"
-  vpc_id      = alicloud_vpc.main.id
+data "alicloud_zones" "default" {
+  available_disk_category     = "cloud_efficiency"
+  available_resource_creation = "VSwitch"
+  available_instance_type     = var.instance_type
 }
 
-resource "alicloud_security_group_rule" "allow_ssh" {
-  type              = "ingress"
-  ip_protocol       = "tcp"
-  nic_type          = "intranet"
-  policy            = "accept"
-  port_range        = "22/22"
-  priority          = 1
-  security_group_id = alicloud_security_group.sg.id
-  cidr_ip           = "0.0.0.0/0"
+resource "alicloud_vpc" "vpc" {
+  vpc_name   = var.name
+  cidr_block = "172.16.0.0/16"
 }
 
-resource "alicloud_security_group_rule" "allow_icmp" {
-  type              = "ingress"
-  ip_protocol       = "icmp"
-  nic_type          = "intranet"
-  policy            = "accept"
-  port_range        = "-1/-1"
-  priority          = 1
-  security_group_id = alicloud_security_group.sg.id
-  cidr_ip           = "0.0.0.0/0"
+resource "alicloud_vswitch" "vswitch" {
+  vpc_id       = alicloud_vpc.vpc.id
+  cidr_block   = "172.16.0.0/24"
+  zone_id      = data.alicloud_zones.default.zones.0.id
+  vswitch_name = var.name
 }
 
-resource "alicloud_instance" "spot_ubuntu" {
-  instance_name   = var.instance_name
-  host_name       = var.instance_name
-  image_id        = data.alicloud_images.ubuntu.images.0.id
-  instance_type   = var.instance_type
-  vswitch_id      = alicloud_vswitch.main.id
-  security_groups = [alicloud_security_group.sg.id]
+resource "alicloud_security_group" "group" {
+  security_group_name = var.name
+  description         = "Security group for spot instance"
+  vpc_id              = alicloud_vpc.vpc.id
+}
 
-  spot_strategy    = "SpotAsPriceGo"
+resource "alicloud_instance" "spot_instance" {
+  availability_zone      = data.alicloud_zones.default.zones.0.id
+  security_groups        = [alicloud_security_group.group.id]
+  instance_type          = var.instance_type
+  image_id               = var.image_id
+  instance_name          = var.name
+  vswitch_id             = alicloud_vswitch.vswitch.id
+  system_disk_category   = "cloud_efficiency"
+  internet_max_bandwidth_out = 10
 
-  internet_max_bandwidth_out = var.internet_bandwidth
-  internet_charge_type       = "PayByTraffic"
-
-  system_disk_category = "cloud_essd"
-  system_disk_size     = var.disk_size
-
-  password = var.password
-  # key_name = var.key_name
+  # Spot instance configuration
+  instance_charge_type = "PostPaid"
+  spot_strategy        = "SpotAsPriceGo"
+  spot_duration        = 1
 }
