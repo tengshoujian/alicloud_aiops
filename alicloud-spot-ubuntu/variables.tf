@@ -1,7 +1,6 @@
 variable "region" {
-  description = "Alibaba Cloud region"
-  type        = string
-  default     = "cn-hangzhou"
+  type    = string
+  default = "ap-northeast-1"
 }
 
 variable "vpc_name" {
@@ -25,11 +24,11 @@ variable "instance_name" {
 variable "instance_type" {
   description = "ECS instance type"
   type        = string
-  default     = "ecs.t6-c1m1.large"
+  default     = "ecs.e-c1m2.large"
 }
 
 variable "spot_price_limit" {
-  description = "Max price per hour (0 = SpotAsPriceGo)"
+  description = "Max price per hour (0 = SpotAsPriceGo)
   type        = number
   default     = 0
 }
