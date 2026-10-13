@@ -17,21 +17,21 @@ provider "alicloud" {
 
 data "alicloud_zones" "default" {
   available_resource_creation = "VSwitch"
-  available_instance_type     = var.instance_type
+  available_instance_type     = "ecs.e-c1m2.large"
 }
 
 variable "name" {
   default = "terraform-spot-example"
 }
 
-variable "instance_type" {
-  default = "ecs.e-c1m2.large"
-}
+
 
 data "alicloud_images" "ubuntu" {
-  name_regex  = "^ubuntu"
-  owners      = "system"
-  most_recent = true
+  owners       = "system"
+  name_regex   = "^ubuntu"
+  architecture = "x86_64"
+  most_recent  = true
+  status       = "Available"
 }
 
 resource "alicloud_vpc" "vpc" {
@@ -55,7 +55,7 @@ resource "alicloud_security_group" "group" {
 resource "alicloud_instance" "spot_instance" {
   availability_zone      = data.alicloud_zones.default.zones.0.id
   security_groups        = [alicloud_security_group.group.id]
-  instance_type          = var.instance_type
+  instance_type          = "ecs.e-c1m2.large"
   image_id               = data.alicloud_images.ubuntu.images.0.id
   instance_name          = var.name
   vswitch_id             = alicloud_vswitch.vswitch.id
