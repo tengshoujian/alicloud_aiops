@@ -1,3 +1,15 @@
+output "vpc_id" {
+  value = alicloud_vpc.vpc.id
+}
+
+output "vswitch_id" {
+  value = alicloud_vswitch.vswitch.id
+}
+
+output "security_group_id" {
+  value = alicloud_security_group.group.id
+}
+
 output "spot_instance_id" {
   value = alicloud_instance.spot_instance.id
 }

@@ -95,24 +95,24 @@ resource "alicloud_instance" "spot_instance" {
 }
 
 # 创建 Windows Server 2016 实例并安装 AD Domain Services
-resource "alicloud_instance" "windows_dc" {
-  count                  = 2
-  availability_zone      = data.alicloud_zones.default.zones.0.id
-  security_groups        = [alicloud_security_group.group.id]
-  instance_type          = "ecs.e-c1m2.large"
-  image_id               = data.alicloud_images.windows_2016.images.0.id
-  instance_name          = "${var.name}-win-dc-${count.index + 1}"
-  vswitch_id             = alicloud_vswitch.vswitch.id
-  system_disk_category   = "cloud_essd"
-  internet_max_bandwidth_out = 0
-  password               = "YourStrongPassword123!"
-  user_data              = base64encode(<<-EOF
-    <powershell>
-    Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools -Restart
-    </powershell>
-    EOF
-  )
-}
+# resource "alicloud_instance" "windows_dc" {
+ # count                  = 2
+ # availability_zone      = data.alicloud_zones.default.zones.0.id
+  #security_groups        = [alicloud_security_group.group.id]
+ # instance_type          = "ecs.e-c1m2.large"
+  #image_id               = data.alicloud_images.windows_2016.images.0.id
+ # instance_name          = "${var.name}-win-dc-${count.index + 1}"
+ # vswitch_id             = alicloud_vswitch.vswitch.id
+  #system_disk_category   = "cloud_essd"
+ # internet_max_bandwidth_out = 0
+ # password               = "YourStrongPassword123!"
+  #user_data              = base64encode(<<-EOF
+  #  <powershell>
+ #   Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools -Restart
+ #   </powershell>
+  #  EOF
+ # )
+#}
 
 # 为 Ubuntu 实例创建并绑定 EIP
 resource "alicloud_eip_address" "eip_ubuntu" {
@@ -147,11 +147,11 @@ resource "alicloud_eip" "win_eip_2" {
 resource "alicloud_instance" "windows_dc_1" {
   availability_zone      = data.alicloud_zones.default.zones.0.id
   security_groups        = [alicloud_security_group.group.id]
-  instance_type          = "ecs.g6.large"
+  instance_type          = "ecs.e-c1m2.large"
   image_id               = data.alicloud_images.windows_2016.images.0.id
   instance_name          = "${var.name}-win-dc-1"
   vswitch_id             = alicloud_vswitch.vswitch.id
-  system_disk_category   = "cloud_efficiency"
+  system_disk_category   = "cloud_essd"
   internet_max_bandwidth_out = 0
   user_data              = base64encode(<<-EOF
     # Install AD DS and promote to Domain Controller
@@ -170,11 +170,11 @@ resource "alicloud_instance" "windows_dc_1" {
 resource "alicloud_instance" "windows_dc_2" {
   availability_zone      = data.alicloud_zones.default.zones.0.id
   security_groups        = [alicloud_security_group.group.id]
-  instance_type          = "ecs.g6.large"
+  instance_type          = "ecs.e-c1m2.large"
   image_id               = data.alicloud_images.windows_2016.images.0.id
   instance_name          = "${var.name}-win-dc-2"
   vswitch_id             = alicloud_vswitch.vswitch.id
-  system_disk_category   = "cloud_efficiency"
+  system_disk_category   = "cloud_essd"
   internet_max_bandwidth_out = 0
   user_data              = base64encode(<<-EOF
     # Install AD DS and promote to Domain Controller
