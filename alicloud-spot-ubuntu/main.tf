@@ -65,8 +65,6 @@ resource "alicloud_instance" "spot_instance" {
   system_disk_category   = "cloud_efficiency"
   system_disk_name       = var.name
   internet_max_bandwidth_out = 10
-
-  # Spot instance configuration
   instance_charge_type = "PostPaid"
   spot_strategy        = "SpotAsPriceGo"
   spot_duration        = 1
