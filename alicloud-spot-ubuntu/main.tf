@@ -60,6 +60,7 @@ resource "alicloud_instance" "spot_instance" {
   instance_name          = var.name
   vswitch_id             = alicloud_vswitch.vswitch.id
   system_disk_category   = "cloud_efficiency"
+  system_disk_name       = var.name
   internet_max_bandwidth_out = 10
 
   # Spot instance configuration
