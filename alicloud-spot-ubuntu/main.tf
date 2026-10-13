@@ -124,7 +124,7 @@ resource "alicloud_eip_address" "eip_ubuntu" {
 
 resource "alicloud_eip_association" "eip_assoc_ubuntu" {
   allocation_id = alicloud_eip_address.eip_ubuntu.id
-  instance_id   = alicloud_instance.ubuntu_instance.id
+  instance_id   = alicloud_instance.spot_instance.id
 }
 
 # 为第一台 Windows Server 2016 创建 EIP
