@@ -18,7 +18,7 @@ provider "alicloud" {
 
 
 data "alicloud_zones" "default" {
-  available_disk_category     = "cloud_efficiency"
+  available_disk_category     = "cloud_essd"
   available_resource_creation = "VSwitch"
   available_instance_type     = "ecs.e-c1m2.large"
 }
@@ -62,7 +62,7 @@ resource "alicloud_instance" "spot_instance" {
   image_id               = data.alicloud_images.ubuntu.images.0.id
   instance_name          = var.name
   vswitch_id             = alicloud_vswitch.vswitch.id
-  system_disk_category   = "cloud_efficiency"
+  system_disk_category   = "cloud_essd"
   system_disk_name       = var.name
   internet_max_bandwidth_out = 10
   instance_charge_type = "PostPaid"
