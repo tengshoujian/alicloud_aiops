@@ -78,6 +78,7 @@ resource "alicloud_security_group_rule" "allow_ssh" {
   cidr_ip           = "0.0.0.0/0"
 }
 
+
 resource "alicloud_instance" "spot_instance" {
   availability_zone      = data.alicloud_zones.default.zones.0.id
   security_groups        = [alicloud_security_group.group.id]
@@ -93,6 +94,7 @@ resource "alicloud_instance" "spot_instance" {
   spot_duration        = 1
   password             = "Grafana2024!"
 }
+
 
 # 创建 Windows Server 2016 实例并安装 AD Domain Services
 # resource "alicloud_instance" "windows_dc" {
@@ -114,6 +116,8 @@ resource "alicloud_instance" "spot_instance" {
  # )
 #}
 
+
+
 # 为 Ubuntu 实例创建并绑定 EIP
 resource "alicloud_eip_address" "eip_ubuntu" {
   address_name         = "${var.name}-ubuntu-eip"
@@ -122,11 +126,12 @@ resource "alicloud_eip_address" "eip_ubuntu" {
   payment_type         = "PayAsYouGo"
 }
 
+
 resource "alicloud_eip_association" "eip_assoc_ubuntu" {
   allocation_id = alicloud_eip_address.eip_ubuntu.id
   instance_id   = alicloud_instance.spot_instance.id
 }
-
+/*
 # 为第一台 Windows Server 2016 创建 EIP
 resource "alicloud_eip" "win_eip_1" {
   address_name         = "${var.name}-win-eip-1"
@@ -204,3 +209,4 @@ resource "alicloud_eip_association" "win_eip_assoc_2" {
   instance_id   = alicloud_instance.windows_dc_2.id
   instance_type = "EcsInstance"
 }
+*/
