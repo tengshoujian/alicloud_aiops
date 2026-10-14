@@ -114,6 +114,7 @@ resource "alicloud_instance" "spot_instance" {
     apt-get update
     apt-get install -y docker.io docker-compose git curl
     sudo mkdir -p /usr/local/lib/docker/cli-plugins
+    sudo curl -SL "https://github.com/docker/compose/releases/download/v2.24.5/docker-compose-linux-x86_64" -o /usr/local/lib/docker/cli-plugins/docker-compose
     sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
     systemctl enable docker
     systemctl start docker
