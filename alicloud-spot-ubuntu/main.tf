@@ -93,6 +93,20 @@ resource "alicloud_instance" "spot_instance" {
   spot_strategy        = "SpotAsPriceGo"
   spot_duration        = 1
   password             = "Grafana2024!"
+  user_data              = base64encode(<<-EOF
+    #!/bin/bash
+    set -e
+    apt-get update
+    apt-get install -y docker.io docker-compose git curl
+    systemctl enable docker
+    systemctl start docker
+    cd /opt
+    git clone https://github.com/langgenius/dify.git
+    cd dify/docker
+    cp .env.example .env
+    docker compose up -d
+    EOF
+  )
 }
 
 
