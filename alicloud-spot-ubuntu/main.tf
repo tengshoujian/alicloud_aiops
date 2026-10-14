@@ -91,7 +91,6 @@ resource "alicloud_instance" "spot_instance" {
   internet_max_bandwidth_out = 0
   instance_charge_type = "PostPaid"
   spot_strategy        = "SpotAsPriceGo"
-  spot_duration        = 1
   password             = "Grafana2024!"
   user_data              = base64encode(<<-EOF
     #!/bin/bash
