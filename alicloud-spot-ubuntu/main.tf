@@ -153,6 +153,7 @@ resource "alicloud_instance" "windows_dc_1" {
   vswitch_id             = alicloud_vswitch.vswitch.id
   system_disk_category   = "cloud_essd"
   internet_max_bandwidth_out = 0
+  password             = "Grafana2024!"
   user_data              = base64encode(<<-EOF
     # Install AD DS and promote to Domain Controller
     Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools -Restart
@@ -176,6 +177,7 @@ resource "alicloud_instance" "windows_dc_2" {
   vswitch_id             = alicloud_vswitch.vswitch.id
   system_disk_category   = "cloud_essd"
   internet_max_bandwidth_out = 0
+  password             = "Grafana2024!"
   user_data              = base64encode(<<-EOF
     # Install AD DS and promote to Domain Controller
     Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools -Restart
