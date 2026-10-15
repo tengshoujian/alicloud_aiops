@@ -120,7 +120,10 @@ resource "alicloud_instance" "spot_instance" {
     systemctl start docker
     cd /opt
     git clone https://github.com/langgenius/dify.git
-    cd dify/docker
+    cd dify
+    git checkout HEAD^
+    cd docker
+    # cd dify/docker
     cp .env.example .env
     docker compose up -d
     EOF
